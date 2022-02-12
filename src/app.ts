@@ -1,24 +1,29 @@
-import 'regenerator-runtime/runtime'
+import 'regenerator-runtime/runtime';
+import { Renderable, Renderer } from './view/interfaces/Renderer';
 import { BoardModel } from "./model/BoardModel";
-import { HeaderView } from "./view/HeaderView/HeaderView";
-import { GameView } from "./view/GameView/GameView";
-import { BoardView } from "./view/BoardView/BoardView";
-import { StatView } from "./view/StatView/StatView";
-import { FooterView } from "./view/FooterView/FooterView";
+import { HeaderView } from "./view/components/HeaderView/HeaderView";
+import { GameView } from "./view/components/GameView/GameView";
+import { BoardView } from "./view/components/BoardView/BoardView";
+import { StatView } from "./view/components/StatView/StatView";
+import { FooterView } from "./view/components/FooterView/FooterView";
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
+
   let board: BoardModel;
-  const headerView:HeaderView =  new HeaderView(); 
-  headerView.render();
+  const headerView:HeaderView =  new HeaderView();
+  new Renderer(headerView);
+
   headerView.showBoardSelectorHandler();
   headerView.showThemeSelectorHandler();
   headerView.newBoardHandler(onNewBoard);
   headerView.newThemeHandler(onNewTheme); 
   const gameView = new GameView();
   gameView.render();
-  const footerView = new FooterView();
-  footerView.render();
+
+  const footerView:Renderable = new FooterView();
+  const footerRenderer = new Renderer(footerView);
+
 
   const init = async () => {  
     renderBoard();
@@ -33,6 +38,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   const renderStatView = () => {
     const statView = new StatView();
+    // new Renderer(statView)
     statView.render();
     if(board.moves === 1) {
       statView.clock(onClockTick)

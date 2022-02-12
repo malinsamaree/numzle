@@ -1,0 +1,38 @@
+.board {
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.board-inner {
+  background-color: rgb(235, 231, 231);
+  background: transparent;
+  display: grid;
+  justify-content: center;
+  gap: 3px;
+  padding: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
+
+.dragable-tile {
+  cursor: pointer;
+  z-index: 10;
+}
+
+.absolute-tile {
+  position: absolute;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

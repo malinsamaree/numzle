@@ -1,0 +1,22 @@
+@import url('../HeaderView/headerView.scss');
+@import url('../GameView/gameView.scss');
+@import url('../BoardView/bordView.scss');
+@import url('../StatView/statView.scss');
+@import url('../FooterView/footerView.scss');
+@import url('./themes/classic.scss');
+@import url('./themes/aqua.scss');
+@import url('./themes/universe.scss');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

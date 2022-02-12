@@ -1,0 +1,1 @@
+export const bordSizes = [9, 16, 25]

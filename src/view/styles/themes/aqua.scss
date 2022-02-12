@@ -1,0 +1,56 @@
+.theme-aqua {
+  background-image: url('../../../resources/backgrounds/shark.jpg');
+  background-size: cover;
+  background-position: center;
+
+  .game {
+    .game-board {
+      .board {
+        .board-inner {
+          background-image: url('../../../resources/backgrounds/turtle.jpg');
+          background-size: cover;
+          background-position: center;
+          // opacity: 0.9;
+          // box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.5);
+          // border-radius: 5px;
+
+          .tile {
+            background-color: rgb(49, 49, 49);
+            opacity: 0.9;
+            // background-image: url('../../../resources/backgrounds/tile.jpg');
+            // background-size: cover;
+            // background-position: center;
+            // background-repeat: no-repeat;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 18px;
+            color: rgb(255, 255, 255);
+            // text-shadow: 1px 1px white, -1px -1px rgb(11, 69, 122);
+            box-shadow: 0px 1px 1px rgba(124, 124, 124, 0.5);
+          }
+          .empty-tile {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+          }
+          .dragable-tile {
+            // background-image: url('../../../resources/backgrounds/tile.jpg');
+            // background-size: cover;
+            // background-position: center;
+            background-color: rgb(49, 49, 49);
+            opacity: 0.9;
+          }
+          .absolute-tile {
+            // background-image: url('../../../resources/backgrounds/tile.jpg');
+            // background-size: cover;
+            // background-position: center;
+            background-color: rgb(49, 49, 49);
+            opacity: 0.9;
+            font-size: 18px;
+            color: rgb(255, 255, 255);
+            // text-shadow: 1px 1px white, -1px -1px #444;
+          }
+        }
+      }
+    }
+  }
+}

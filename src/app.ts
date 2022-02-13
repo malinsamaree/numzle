@@ -9,11 +9,11 @@ import { FooterView } from "./view/components/FooterView/FooterView";
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
-
   let board: BoardModel;
+  let clockInterval: ReturnType<typeof setInterval>;
+
   const headerView:HeaderView =  new HeaderView();
   new Renderer(headerView);
-
   headerView.showBoardSelectorHandler();
   headerView.showThemeSelectorHandler();
   headerView.newBoardHandler(onNewBoard);
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   const footerRenderer = new Renderer(footerView);
 
 
-  const init = async () => {  
+  const init = async () => {
     renderBoard();
     renderStatView();
   }
@@ -33,21 +33,32 @@ document.addEventListener('DOMContentLoaded', (event) => {
   const renderBoard = () => {
       const boardView = new BoardView(board);
       boardView.render();
-      boardView.onClickHandler(onTileClick);
+      !board.isWon && boardView.onClickHandler(onTileClick);
   }
 
+  
   const renderStatView = () => {
-    const statView = new StatView();
-    // new Renderer(statView)
+    clearInterval(clockInterval);
+    const statView = new StatView(board.duration, board.moves);
     statView.render();
-    if(board.moves === 1) {
-      statView.clock(onClockTick)
+    if(!board.isWon) {
+      if(board.newGame && board.moves === 1) {
+        statView.clock(onClockTick);  
+        clockInterval = setInterval(() => {
+          statView.clock(onClockTick);
+        }, 1000);
+      } else if (!board.newGame && board.moves > 0) {
+        statView.clock(onClockTick);  
+        clockInterval = setInterval(() => {
+          statView.clock(onClockTick);
+        }, 1000);
+      }
     }
   }
 
-  const newGame = (width: number, height: number) => {
+  const newGame = (width?: number, height?: number) => {
     board = new BoardModel();
-    board.initBoard(width, height);
+    width && height && board.initBoard(width, height);
     init();
   }
 
@@ -87,6 +98,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     renderBoard();
   });
 
-  newGame(3,3);
-})
+  newGame();
+
+});
+
+
 

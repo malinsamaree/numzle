@@ -55,8 +55,22 @@ export class BoardView {
         </div>
       `
     } else {
-      console.log('won');
-      return `<div>won</div>`
+      return `<div class="board">
+        <div class="board-inner" style="${this.boardStyle}">
+          ${this.board.tiles.map((tile) => {
+            const emptyTile = tile===0 ? true : false;
+            const dragableTile = this.board.dragableTiles.includes(this.board.tiles.indexOf(tile));
+            let stylingClasses = "tile";
+            emptyTile && (stylingClasses += " empty-tile");
+            dragableTile && (stylingClasses += " dragable-tile")
+            
+            return `<div class="${stylingClasses}" draggable=${false}>${tile === 0 ? '' : tile}</div>`
+            
+          }
+          ).join('')}
+        </div>
+        <div class="board-inner-won">CONGRATULATIONS !!!</div>
+      </div>`
     }
   }
 

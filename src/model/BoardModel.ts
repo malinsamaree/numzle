@@ -1,8 +1,6 @@
-// import { bordSizes } from "./utils/variables";
-// import { arrayShuffle } from "./utils/functions";
-
 export class BoardModel {
 
+  newGame: boolean = true;
   width:number = 3;
   height: number = 3;
   tiles: number[] = [];
@@ -10,7 +8,6 @@ export class BoardModel {
   tilesInSequence: number[] = [];
   isWon: boolean = false;
   moves: number = 0;
-  initTimestamp: Date | null = null;
   duration: number = 0;
 
   //height and width must be 3 or more
@@ -21,8 +18,25 @@ export class BoardModel {
   ];
 
   constructor() {
+    if(localStorage.getItem('numzle')) {
+      const board = JSON.parse(localStorage.getItem('numzle') as string);
+      if(!board.isWon) {
+        this.newGame = false;
+        this.width = board.width;
+        this.height = board.height;
+        this.tiles = board.tiles;
+        this.dragableTiles = board.dragableTiles;
+        this.tilesInSequence = board.tilesInSequence;
+        this.isWon = board.isWon;
+        this.moves = board.moves;
+        this.duration = board.duration;
+      } else {
+        this.initBoard(3,3)
+      }
+    } else {
       this.initBoard(3,3);
     }
+  }
   
   initBoard = (
     width: number,
@@ -30,13 +44,19 @@ export class BoardModel {
       this.width = width;
       this.height = height;
     if(this.isSizeValid()){
+      this.newGame = true;
+      this.isWon = false;
+      this.moves=0;
+      this.duration=0;
       this.arrayShuffle();
       this.setDragableTiles();
+      localStorage.setItem('numzle', JSON.stringify(this.getBoard()));
     }
   }
 
   setDuration = (seconds: number) => {
     this.duration = seconds;
+    localStorage.setItem('numzle', JSON.stringify(this.getBoard()));
   }
 
   isSizeValid = (): boolean => {
@@ -50,17 +70,18 @@ export class BoardModel {
   }
 
   arrayShuffle = ()  => {
-    const length = this.width * this.height;
-    this.tiles = [...Array(length).keys()]
+    this.tiles = [1,2,3,4,5,6,7,8,0,9]
+    // const length = this.width * this.height;
+    // this.tiles = [...Array(length).keys()]
 
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.round(Math.random() * (length-1));
-      if(randomIndex !== i) {
-        const curValue = this.tiles[i];
-        this.tiles[i] = this.tiles[randomIndex];
-        this.tiles[randomIndex] = curValue;
-      }
-    }
+    // for (let i = 0; i < length; i++) {
+    //   const randomIndex = Math.round(Math.random() * (length-1));
+    //   if(randomIndex !== i) {
+    //     const curValue = this.tiles[i];
+    //     this.tiles[i] = this.tiles[randomIndex];
+    //     this.tiles[randomIndex] = curValue;
+    //   }
+    // }
   }
 
 
@@ -89,10 +110,7 @@ export class BoardModel {
     this.setDragableTiles();
     this.isWon = this.gameState();
     this.moves++;
-
-    if(!this.initTimestamp) {
-      this.initTimestamp = new Date();
-    }
+    localStorage.setItem('numzle', JSON.stringify(this.getBoard()));
   }
 
   setDragableTiles = (): void => {
@@ -155,6 +173,7 @@ export class BoardModel {
 
   getBoard = () => {
     return {
+      newGame: this.newGame,
       width: this.width,
       height: this.height,
       tiles: this.tiles,
@@ -162,9 +181,8 @@ export class BoardModel {
       dragableTiles: this.dragableTiles,
       isWon: this.isWon,
       moves: this.moves,
-      initTimestamp: this.initTimestamp
+      duration: this.duration
     }
   }
-  
 
 }
